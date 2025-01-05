@@ -1,5 +1,6 @@
 package org.boot.springdemo.controller;
 
+import org.boot.springdemo.dto.PersonDTO;
 import org.boot.springdemo.dto.PersonWithPhoneDTO;
 import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.service.PersonService;
@@ -24,7 +25,7 @@ public class PersonController {
     }
 
     @GetMapping("/get")
-    public List<Person> getPersons() {
+    public List<PersonDTO> getPersons() {
         Logger.info("Controller: save Person");
         return personService.findAll();
     }

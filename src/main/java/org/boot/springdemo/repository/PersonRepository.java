@@ -15,4 +15,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
             "WHERE p.id = :personId",
             nativeQuery = true)
     List<PersonWithPhoneDTO> findPersonWithPhones(Long personId);
+
+    @Query(value = "Select p from Person p left join fetch Phone ph on p.id = ph.person.id")
+    List<Person> findAllWithPhones();
 }
