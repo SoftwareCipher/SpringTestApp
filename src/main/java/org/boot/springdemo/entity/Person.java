@@ -2,6 +2,7 @@ package org.boot.springdemo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Set;
@@ -9,16 +10,17 @@ import java.util.Set;
 @Entity
 @Table(name = "person")
 @Data
-
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private Set<Phone> phones;
 
     @Override
@@ -28,17 +30,5 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", id=" + id +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Set<Phone> getPhones() {
-        return phones;
     }
 }

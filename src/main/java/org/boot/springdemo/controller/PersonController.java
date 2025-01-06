@@ -26,7 +26,7 @@ public class PersonController {
 
     @GetMapping("/get")
     public List<PersonDTO> getPersons() {
-        Logger.info("Controller: save Person");
+        Logger.info("Controller: get Person");
         return personService.findAll();
     }
 
