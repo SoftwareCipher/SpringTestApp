@@ -18,7 +18,6 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phones")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private Set<Phone> phones;
 

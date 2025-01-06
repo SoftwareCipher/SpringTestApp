@@ -26,22 +26,13 @@ public class PersonService {
     }
 
     public List<PersonDTO> findAll() {
-        Logger.info("Service: find all Person");
-        // open session hiber
         List<Person> people = personRepository.findAllWithPhones();
-        // close session hiber
-        Logger.info("Start forEach");
         List<PersonDTO> dtos = new ArrayList<>();
         for (Person p : people) {
-            PersonDTO dto = new PersonDTO(p.getId(), p.getName(), p.getPhones());
-            dtos.add(dto);
+            dtos.add(new PersonDTO(p.getId(), p.getName(), p.getPhones()));
         }
-        Logger.info(dtos.toString());
-        Logger.info("Finish forEach");
-//        return people.stream()
-////                .map(p -> new PeronDTO(p.getId(), p.getName()))
-////                .toList();
-        return Collections.EMPTY_LIST;
+        Logger.info("Service: findAll Person : {}", dtos);
+        return dtos;
     }
 
     public List<PersonWithPhoneDTO> getPersonsWithPhone(Long id) {

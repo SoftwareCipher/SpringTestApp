@@ -1,5 +1,6 @@
 package org.boot.springdemo.repository;
 
+import org.boot.springdemo.dto.PersonDTO;
 import org.boot.springdemo.dto.PersonWithPhoneDTO;
 import org.boot.springdemo.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
             nativeQuery = true)
     List<PersonWithPhoneDTO> findPersonWithPhones(Long personId);
 
-    @Query(value = "Select p from Person p left join fetch Phone ph on p.id = ph.person.id")
+    @Query("SELECT p FROM Person p LEFT JOIN FETCH p.phones")
     List<Person> findAllWithPhones();
 }
