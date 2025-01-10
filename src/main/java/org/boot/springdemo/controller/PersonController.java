@@ -20,4 +20,10 @@ public class PersonController {
         Logger.info("Controller: get Person");
         return personService.findById();
     }
+
+    @GetMapping("/get/{name}")
+    public Person getPerson(@PathVariable String name) {
+        Logger.info("Controller: get Person by name");
+        return personService.findByName(name);
+    }
 }

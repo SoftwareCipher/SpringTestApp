@@ -18,4 +18,8 @@ public class PersonService {
         Logger.info("findById");
         return personRepository.findById(1L).orElse(null);
     }
+
+    public Person findByName(String name) {
+        return personRepository.findByName(name).orElse(null);
+    }
 }

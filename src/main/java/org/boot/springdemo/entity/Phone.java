@@ -15,7 +15,7 @@ public class Phone {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "person_id")
     @MapsId
     private Person person;
