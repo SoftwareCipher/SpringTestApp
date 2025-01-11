@@ -15,7 +15,10 @@ public class Person {
 
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "person",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            optional = false)
     private Phone phone;
 }
 
