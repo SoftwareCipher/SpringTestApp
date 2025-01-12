@@ -2,6 +2,7 @@ package org.boot.springdemo.controller;
 
 import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.service.PersonService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tinylog.Logger;
 
@@ -16,14 +17,20 @@ public class PersonController {
     }
 
     @GetMapping("/get")
-    public Person getPerson() {
+    public ResponseEntity<Person> getPerson() {
         Logger.info("Controller: get Person");
-        return personService.findById();
+        return ResponseEntity.ok(personService.findById());
     }
 
     @GetMapping("/get/{name}")
-    public Person getPerson(@PathVariable String name) {
+    public ResponseEntity<Person> getPerson(@PathVariable String name) {
         Logger.info("Controller: get Person by name");
-        return personService.findByName(name);
+        return ResponseEntity.ok(personService.findByName(name));
+    }
+
+    @GetMapping("/save")
+    public ResponseEntity<Person> savePerson() {
+        Logger.info("Controller: save Person");
+        return ResponseEntity.ok(personService.save());
     }
 }

@@ -1,7 +1,9 @@
 package org.boot.springdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 
@@ -9,6 +11,7 @@ import org.hibernate.annotations.BatchSize;
 @Table(name = "phone")
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Phone {
     @Id
     Long id;
@@ -19,6 +22,7 @@ public class Phone {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     @MapsId
+    @JsonIgnore
     private Person person;
 }
 
