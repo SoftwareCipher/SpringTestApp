@@ -1,5 +1,7 @@
 package org.boot.springdemo.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.boot.springdemo.dto.PersonDTO;
 import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.entity.Phone;
 import org.boot.springdemo.repository.PersonRepository;
@@ -16,27 +18,75 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public Person findById() {
+//    public Person findById() {
+//        Logger.info("findById");
+//        Person person = personRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
+//        person.setPhone(null);
+//        return person;
+//    }
+
+//    @Transactional
+//    public Person findByIdWithPhone(Long id) {
+//        Logger.info("findByIdWithPhone");
+//        Person person = personRepository.findById(id).orElse(null);
+//        if (person != null && person.getPhone() != null) {
+//            person.getPhone().getPhoneNumber();
+//        }
+//        return person;
+//    }
+
+//    @Transactional
+//    public Person save() {
+//        Person person = new Person();
+//        person.setName("Admin");
+//        personRepository.save(person);
+//
+//        Phone phone = new Phone();
+//        phone.setPhoneNumber(String.valueOf(123456789));
+//        person.setPhone(phone);
+//        phone.setPerson(person);
+//        return person;
+//    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+
+    @Transactional(readOnly = true)
+    public PersonDTO findById(Long id) {
         Logger.info("findById");
-        //спринг вызывает findById и ищет того кто реализовал метод -> Hiber
-        return personRepository.findById(1L).orElse(null);
+        return personRepository.findById(id)
+                .map(person -> new PersonDTO(
+                        person.getId(),
+                        person.getName(),
+                        null // Не возвращаем телефон
+                ))
+                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
     }
 
-    public Person findByName(String name) {
-        return personRepository.findByName(name).orElse(null);
+    @Transactional(readOnly = true)
+    public PersonDTO findByIdWithPhone(Long id) {
+        Logger.info("findByIdWithPhone");
+        return personRepository.findById(id)
+                .map(person -> new PersonDTO(
+                        person.getId(),
+                        person.getName(),
+                        person.getPhone() != null ? person.getPhone().getPhoneNumber() : null
+                ))
+                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
     }
 
     @Transactional
-    public Person save() {
+    public void savePersonWithPhone(String name, String phoneNumber) {
         Person person = new Person();
-        person.setName("Admin");
+        person.setName(name);
         personRepository.save(person);
 
-        Phone phone = new Phone();
-        phone.setPhoneNumber(String.valueOf(123456789));
-        person.setPhone(phone);
-        phone.setPerson(person);
-        return person;
+        if (phoneNumber != null) {
+            Phone phone = new Phone();
+            phone.setPhoneNumber(phoneNumber);
+            phone.setPerson(person);
+            person.setPhone(phone);
+        }
     }
-
 }
