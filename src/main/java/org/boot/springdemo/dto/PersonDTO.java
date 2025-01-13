@@ -10,6 +10,11 @@ public class PersonDTO {
     private String name;
     private String phoneNumber;
 
+    public PersonDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public PersonDTO(Long id, String name, String phoneNumber) {
         this.id = id;
         this.name = name;

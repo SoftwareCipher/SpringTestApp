@@ -63,7 +63,7 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<Void> savePerson(@RequestBody PersonDTO personDTO) {
         Logger.info("Controller: savePerson");
-        personService.savePersonWithPhone(personDTO.getName(), personDTO.getPhoneNumber());
+        personService.savePersonWithPhone(personDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

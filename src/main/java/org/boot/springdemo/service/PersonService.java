@@ -52,14 +52,12 @@ public class PersonService {
     /////////////////////////////////////////////////////////////////////////////////////////
 
 
-    @Transactional(readOnly = true)
     public PersonDTO findById(Long id) {
         Logger.info("findById");
         return personRepository.findById(id)
                 .map(person -> new PersonDTO(
                         person.getId(),
-                        person.getName(),
-                        null // Не возвращаем телефон
+                        person.getName()
                 ))
                 .orElseThrow(() -> new EntityNotFoundException("Person not found"));
     }
@@ -77,14 +75,14 @@ public class PersonService {
     }
 
     @Transactional
-    public void savePersonWithPhone(String name, String phoneNumber) {
+    public void savePersonWithPhone(PersonDTO personDTO) {
         Person person = new Person();
-        person.setName(name);
+        person.setName(personDTO.getName());
         personRepository.save(person);
 
-        if (phoneNumber != null) {
+        if (personDTO.getPhoneNumber() != null) {
             Phone phone = new Phone();
-            phone.setPhoneNumber(phoneNumber);
+            phone.setPhoneNumber(personDTO.getPhoneNumber());
             phone.setPerson(person);
             person.setPhone(phone);
         }
