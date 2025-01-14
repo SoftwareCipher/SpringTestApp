@@ -1,7 +1,6 @@
 package org.boot.springdemo.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Table;
 import org.boot.springdemo.dto.PersonDTO;
 import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.entity.Phone;

@@ -1,7 +1,7 @@
 package org.boot.springdemo.controller;
 
+import jakarta.validation.Valid;
 import org.boot.springdemo.dto.PersonDTO;
-import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,14 +39,14 @@ public class PersonController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> savePerson(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<Void> savePerson(@Valid @RequestBody PersonDTO personDTO) {
         Logger.info("Controller: savePerson");
         personService.savePersonWithPhone(personDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Void> updatePerson(@PathVariable Long id, @RequestBody PersonDTO personDTO) {
+    public ResponseEntity<Void> updatePerson(@PathVariable Long id, @Valid @RequestBody PersonDTO personDTO) {
         Logger.info("Controller: updatePerson");
         personService.updatePerson(id, personDTO);
         return ResponseEntity.noContent().build();
