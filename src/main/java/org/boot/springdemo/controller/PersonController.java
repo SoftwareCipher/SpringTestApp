@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tinylog.Logger;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/persons")
 public class PersonController {
@@ -18,35 +20,11 @@ public class PersonController {
         this.personService = personService;
     }
 
-//    @GetMapping("/get")
-//    public ResponseEntity<Person> getPerson() {
-//        return ResponseEntity.ok(personService.findById());
-//    }
-//
-//    @GetMapping("/get2")
-//    public ResponseEntity<PersonDTO> getPersonWithPhone() {
-//        Logger.info("Controller: getPersonWithPhone");
-//        Person person = personService.findByIdWithPhone(1L);
-//
-//        if (person == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        PersonDTO personDTO = new PersonDTO(
-//                person.getId(),
-//                person.getName(),
-//                person.getPhone() != null ? person.getPhone().getPhoneNumber() : null
-//        );
-//        return ResponseEntity.ok(personDTO);
-//    }
-//
-//    @GetMapping("/save")
-//    public ResponseEntity<Person> savePerson() {
-//        Logger.info("Controller: save Person");
-//        return ResponseEntity.ok(personService.save());
-//    }
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("/all")
+    public ResponseEntity<List<PersonDTO>> findAll() {
+        Logger.info("findAll");
+        return ResponseEntity.ok(personService.getAllPersons());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPerson(@PathVariable Long id) {
@@ -60,10 +38,24 @@ public class PersonController {
         return ResponseEntity.ok(personService.findByIdWithPhone(id));
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Void> savePerson(@RequestBody PersonDTO personDTO) {
         Logger.info("Controller: savePerson");
         personService.savePersonWithPhone(personDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Void> updatePerson(@PathVariable Long id, @RequestBody PersonDTO personDTO) {
+        Logger.info("Controller: updatePerson");
+        personService.updatePerson(id, personDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
+        Logger.info("Controller: deletePerson");
+        personService.deletePerson(id);
+        return ResponseEntity.noContent().build();
     }
 }

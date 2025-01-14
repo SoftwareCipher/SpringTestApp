@@ -1,6 +1,7 @@
 package org.boot.springdemo.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Table;
 import org.boot.springdemo.dto.PersonDTO;
 import org.boot.springdemo.entity.Person;
 import org.boot.springdemo.entity.Phone;
@@ -8,6 +9,8 @@ import org.boot.springdemo.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tinylog.Logger;
+
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -17,40 +20,6 @@ public class PersonService {
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-
-//    public Person findById() {
-//        Logger.info("findById");
-//        Person person = personRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
-//        person.setPhone(null);
-//        return person;
-//    }
-
-//    @Transactional
-//    public Person findByIdWithPhone(Long id) {
-//        Logger.info("findByIdWithPhone");
-//        Person person = personRepository.findById(id).orElse(null);
-//        if (person != null && person.getPhone() != null) {
-//            person.getPhone().getPhoneNumber();
-//        }
-//        return person;
-//    }
-
-//    @Transactional
-//    public Person save() {
-//        Person person = new Person();
-//        person.setName("Admin");
-//        personRepository.save(person);
-//
-//        Phone phone = new Phone();
-//        phone.setPhoneNumber(String.valueOf(123456789));
-//        person.setPhone(phone);
-//        phone.setPerson(person);
-//        return person;
-//    }
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////
-
 
     public PersonDTO findById(Long id) {
         Logger.info("findById");
@@ -78,13 +47,34 @@ public class PersonService {
     public void savePersonWithPhone(PersonDTO personDTO) {
         Person person = new Person();
         person.setName(personDTO.getName());
+        Phone phone = new Phone();
+        phone.setPhoneNumber(personDTO.getPhoneNumber());
+        person.setPhone(phone);
+        phone.setPerson(person);
         personRepository.save(person);
+    }
 
-        if (personDTO.getPhoneNumber() != null) {
-            Phone phone = new Phone();
-            phone.setPhoneNumber(personDTO.getPhoneNumber());
-            phone.setPerson(person);
-            person.setPhone(phone);
-        }
+    @Transactional
+    public void updatePerson(Long id, PersonDTO personDTO) {
+        Logger.info("updatePerson");
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Person with ID="
+                        + id + " not found"));
+        person.setName(personDTO.getName());
+        person.getPhone().setPhoneNumber(personDTO.getPhoneNumber());
+    }
+
+    public void deletePerson(Long id) {
+        Logger.info("deletePerson");
+        personRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PersonDTO> getAllPersons() {
+        return personRepository.findAll().stream().map(person -> new PersonDTO(
+                person.getId(),
+                person.getName(),
+                person.getPhone() != null ? person.getPhone().getPhoneNumber() : null
+        )).toList();
     }
 }
