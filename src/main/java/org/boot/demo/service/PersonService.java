@@ -1,10 +1,10 @@
-package org.boot.springdemo.service;
+package org.boot.demo.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.boot.springdemo.dto.PersonDTO;
-import org.boot.springdemo.entity.Person;
-import org.boot.springdemo.entity.Phone;
-import org.boot.springdemo.repository.PersonRepository;
+import org.boot.demo.dto.PersonDTO;
+import org.boot.demo.entity.Person;
+import org.boot.demo.entity.Phone;
+import org.boot.demo.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tinylog.Logger;

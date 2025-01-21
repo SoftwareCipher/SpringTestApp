@@ -1,4 +1,4 @@
-package org.boot.springdemo.entity;
+package org.boot.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

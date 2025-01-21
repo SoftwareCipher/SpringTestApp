@@ -1,8 +1,8 @@
-package org.boot.springdemo.controller;
+package org.boot.demo.controller;
 
 import jakarta.validation.Valid;
-import org.boot.springdemo.dto.PersonDTO;
-import org.boot.springdemo.service.PersonService;
+import org.boot.demo.dto.PersonDTO;
+import org.boot.demo.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
