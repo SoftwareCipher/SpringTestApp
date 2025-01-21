@@ -26,13 +26,13 @@ public class PersonController {
         return ResponseEntity.ok(personService.getAllPersons());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/without_phone")
     public ResponseEntity<PersonDTO> getPerson(@PathVariable Long id) {
         Logger.info("Controller: getPerson");
         return ResponseEntity.ok(personService.findById(id));
     }
 
-    @GetMapping("/{id}/with-phone")
+    @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonWithPhone(@PathVariable Long id) {
         Logger.info("Controller: getPersonWithPhone");
         return ResponseEntity.ok(personService.findByIdWithPhone(id));
@@ -41,7 +41,7 @@ public class PersonController {
     @PostMapping("/save")
     public ResponseEntity<Void> savePerson(@Valid @RequestBody PersonDTO personDTO) {
         Logger.info("Controller: savePerson");
-        personService.savePersonWithPhone(personDTO);
+        personService.savePerson(personDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

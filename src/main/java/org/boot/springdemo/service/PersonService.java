@@ -30,26 +30,21 @@ public class PersonService {
                 .orElseThrow(() -> new EntityNotFoundException("Person not found"));
     }
 
-    @Transactional(readOnly = true)
     public PersonDTO findByIdWithPhone(Long id) {
         Logger.info("findByIdWithPhone");
-        return personRepository.findById(id)
-                .map(person -> new PersonDTO(
-                        person.getId(),
-                        person.getName(),
-                        person.getPhone() != null ? person.getPhone().getPhoneNumber() : null
-                ))
-                .orElseThrow(() -> new EntityNotFoundException("Person not found"));
+        return personRepository.findPersonById(id);
     }
 
     @Transactional
-    public void savePersonWithPhone(PersonDTO personDTO) {
+    public void savePerson(PersonDTO personDTO) {
         Person person = new Person();
         person.setName(personDTO.getName());
+
         Phone phone = new Phone();
         phone.setPhoneNumber(personDTO.getPhoneNumber());
         person.setPhone(phone);
         phone.setPerson(person);
+
         personRepository.save(person);
     }
 
