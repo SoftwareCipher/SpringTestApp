@@ -56,6 +56,7 @@ public class PersonService {
                         + id + " not found"));
         person.setName(personDTO.getName());
         person.getPhone().setPhoneNumber(personDTO.getPhoneNumber());
+        Logger.info(person.getPhone().getPhoneNumber());
     }
 
     public void deletePerson(Long id) {
